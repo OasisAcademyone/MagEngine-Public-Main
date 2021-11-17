@@ -11,7 +11,6 @@ class MenuItem extends FlxSpriteGroup
 {
 	public var targetY:Float = 0;
 	public var week:FlxSprite;
-	public var customweek:FlxSprite;
 	public var flashingInt:Int = 0;
 
 	public function new(x:Float, y:Float, weekNum:Int = 0)
@@ -23,9 +22,10 @@ class MenuItem extends FlxSpriteGroup
 	
 
 		if (weekNum > 6){
-			customweek = new FlxSprite().loadGraphic(Paths.image('storymenu/bonusweek'));
-			customweek.color = FlxColor.BLACK;
-			add(customweek);
+			super(x, y);
+			week = new FlxSprite().loadGraphic(Paths.image('storymenu/bonusweek'));
+			week.color = FlxColor.BLACK;
+			add(week);
 			}
 	}
 
