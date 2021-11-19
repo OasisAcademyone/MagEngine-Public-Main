@@ -24,12 +24,14 @@ class Paths
 
 	public static var modsthing:Map<String, Bool> = new Map<String, Bool>();
 	static public var modDir:String = null;
+	public static var customSoundsLoaded:Map<String, Sound> = new Map();
 
 	static var currentLevel:String;
 
 	static public function getModFolders()
 		{
 			modsthing.set('data', true);
+			modsthing.set('songs', true);
 		}
 
 	static public function setCurrentLevel(name:String)
@@ -112,14 +114,36 @@ class Paths
 		return getPath('music/$key.$SOUND_EXT', MUSIC, library);
 	}
 
-	inline static public function voices(song:String)
-	{
-		return 'songs:assets/songs/${song.toLowerCase()}/Voices.$SOUND_EXT';
-	}
+	inline static public function voices(song:String):Any
+		{
+			var file:Sound = returnSongFile(modsSongs(song.toLowerCase().replace(' ', '-') + '/Voices'));
+			if(file != null) {
+				return file;
+			}
+	
+			return 'songs:assets/songs/${song.toLowerCase().replace(' ', '-')}/Voices.$SOUND_EXT';
+		}
+	
+		inline static public function inst(song:String):Any
+		{
+		
+			var file:Sound = returnSongFile(modsSongs(song.toLowerCase().replace(' ', '-') + '/Inst'));
+			if(file != null) {
+				return file;
+			}
+		
+			return 'songs:assets/songs/${song.toLowerCase().replace(' ', '-')}/Inst.$SOUND_EXT';
+		}
 
-	inline static public function inst(song:String)
+	inline static private function returnSongFile(file:String):Sound
 	{
-		return 'songs:assets/songs/${song.toLowerCase()}/Inst.$SOUND_EXT';
+		if(FileSystem.exists(file)) {
+			if(!customSoundsLoaded.exists(file)) {
+				customSoundsLoaded.set(file, Sound.fromFile(file));
+			}
+			return customSoundsLoaded.get(file);
+		}
+		return null;
 	}
 
 	inline static public function image(key:String, ?library:String)
@@ -137,6 +161,10 @@ class Paths
 		return 'mods/' + key;
 	}
 	
+	inline static public function modsSongs(key:String) {
+		return modfold('songs/' + key + '.' + SOUND_EXT);
+	}
+
 	inline static public function modsong(key:String) {
 		return modfold('data/' + key + '.json');
 	}

@@ -139,7 +139,7 @@ class PlayState extends MusicBeatState
 
 	// how big to stretch the pixel art assets
 	public static var daPixelZoom:Float = 6;
-
+	var bruhmomento:Bool = SONG.song.toLowerCase() != 'bopeebo' && SONG.song.toLowerCase() != 'fresh' && SONG.song.toLowerCase() != 'dadbattle' && SONG.song.toLowerCase() != 'spookeez' && SONG.song.toLowerCase() != 'south' && SONG.song.toLowerCase() != 'monster' && SONG.song.toLowerCase() != 'pico' && SONG.song.toLowerCase() != 'philly' && SONG.song.toLowerCase() != 'blammed' && SONG.song.toLowerCase() != 'satin-panties' &&  SONG.song.toLowerCase() != 'high' && SONG.song.toLowerCase() != 'milf' && SONG.song.toLowerCase() != 'cocoa' && SONG.song.toLowerCase() != 'eggnog' && SONG.song.toLowerCase() != 'winter-horrorland' && SONG.song.toLowerCase() != 'senpai' && SONG.song.toLowerCase() != 'roses' &&SONG.song.toLowerCase() != 'thorns';
 	var inCutscene:Bool = false;
 
 	#if desktop
@@ -202,11 +202,22 @@ class PlayState extends MusicBeatState
 				dialogue = CoolUtil.coolTextFile(Paths.txt('data/thorns/thornsDialogue'));
 
 			default:
-				if (isStoryMode)
-				dialogue = CoolUtil.coolTextFile(Paths.txt('data/' + SONG.song.toLowerCase() + '/Dialogue'));
-				else
-				dialogue = CoolUtil.coolTextFile(Paths.txt('mods/' + SONG.song.toLowerCase() + '/Dialogue'));
+				if (isStoryMode){
+					if (bruhmomento){
 
+						switch (SONG.dialoguetoggle){
+
+						case 'true':
+						#if polymod
+						polymod.Polymod.init({modRoot: "mods", dirs: ['data/'+ SONG.song.toLowerCase() + '/Dialogue']});
+						#end
+
+						case 'false':
+					}
+				}
+				else
+				dialogue = CoolUtil.coolTextFile(Paths.txt('data/' + SONG.song.toLowerCase() + '/Dialogue'));
+			}
 		}
 
 		#if desktop
