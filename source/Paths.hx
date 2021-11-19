@@ -4,12 +4,33 @@ import flixel.FlxG;
 import flixel.graphics.frames.FlxAtlasFrames;
 import openfl.utils.AssetType;
 import openfl.utils.Assets as OpenFlAssets;
+import lime.utils.Assets;
+import flixel.FlxSprite;
+#if sys
+import sys.io.File;
+import sys.FileSystem;
+import flixel.graphics.FlxGraphic;
+import openfl.display.BitmapData;
+#end
+
+import flash.media.Sound;
+
+using StringTools;
+
 
 class Paths
 {
 	inline public static var SOUND_EXT = #if web "mp3" #else "ogg" #end;
 
+	public static var modsthing:Map<String, Bool> = new Map<String, Bool>();
+	static public var modDir:String = null;
+
 	static var currentLevel:String;
+
+	static public function getModFolders()
+		{
+			modsthing.set('data', true);
+		}
 
 	static public function setCurrentLevel(name:String)
 	{
@@ -109,6 +130,19 @@ class Paths
 	inline static public function font(key:String)
 	{
 		return 'assets/fonts/$key';
+
+	}
+
+	inline static public function mods(key:String = '') {
+		return 'mods/' + key;
+	}
+	
+	inline static public function modsong(key:String) {
+		return modfold('data/' + key + '.json');
+	}
+	
+	inline static public function formatToSongPath(path:String) {
+		return path.toLowerCase().replace(' ', '-');
 	}
 
 	inline static public function getSparrowAtlas(key:String, ?library:String)
@@ -119,5 +153,15 @@ class Paths
 	inline static public function getPackerAtlas(key:String, ?library:String)
 	{
 		return FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('images/$key.txt', library));
+	}
+	static public function modfold(key:String) {
+		if(modDir != null && modDir.length > 0) {
+			// psych engine for the win
+			var fileToCheck:String = mods(modDir + '/' + key);
+			if(FileSystem.exists(fileToCheck)) {
+				return fileToCheck;
+			}
+		}
+		return 'mods/' + key;
 	}
 }

@@ -100,6 +100,7 @@ class PlayState extends MusicBeatState
 	private var camGame:FlxCamera;
 
 	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
+	var cooldialogue:Array<String> = ['coolswag'];
 
 	var halloweenBG:FlxSprite;
 	var isHalloween:Bool = false;
@@ -174,7 +175,6 @@ class PlayState extends MusicBeatState
 
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
-
 		switch (SONG.song.toLowerCase())
 		{
 			case 'tutorial':
@@ -204,6 +204,9 @@ class PlayState extends MusicBeatState
 			default:
 				if (isStoryMode)
 				dialogue = CoolUtil.coolTextFile(Paths.txt('data/' + SONG.song.toLowerCase() + '/Dialogue'));
+				else
+				dialogue = CoolUtil.coolTextFile(Paths.txt('mods/' + SONG.song.toLowerCase() + '/Dialogue'));
+
 		}
 
 		#if desktop
@@ -2150,15 +2153,13 @@ class PlayState extends MusicBeatState
 				FlxG.switchState(new StoryMenuState());
 
 				// if ()
-				StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
 
 				if (SONG.validScore)
 				{
 					NGio.unlockMedal(60961);
 					Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
 				}
-
-				FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
+				
 				FlxG.save.flush();
 			}
 			else
