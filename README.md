@@ -1,22 +1,19 @@
-(logo.png)
-# Friday Night Funkin: Mag Engine, The First Engine To Support Full Weeks And Dialogues With No Modding.
+# ![Friday Night Funkin: Mag Engine, The First Engine To Support Full Weeks And Dialogues With No Modding.] (logo.png)
 
 This is the repository for Friday Night Funkin: Mag Engine.
 
-(MainThumbnail.png)
+![The First No Code Engine For Friday Night Funkin'](art/MainThumbnail.png)
 
 
 # Gallery
 
-(thumbnail.png)
+![Title Screen](art/thumbnail.png)
 
-(thumbnail1.png)
+![Options](art/thumbnail2.png)
 
-(thumbnail2.png)
+![Main Menu](art/thumbnail3.png)
 
-(thumbnail3.png)
-
-(thumbnail4.png)
+![GamePlay](art/thumbnail4.png)
 
 ## Build instructions
 
