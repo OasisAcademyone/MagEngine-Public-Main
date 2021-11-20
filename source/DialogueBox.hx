@@ -16,7 +16,7 @@ class DialogueBox extends FlxSpriteGroup
 {
 	var box:FlxSprite;
 
-	var curCharacter:String = '';
+	public static var curCharacter:String = '';
 
 	var dialogue:Alphabet;
 	var dialogueList:Array<String> = [];
@@ -480,7 +480,7 @@ class DialogueBox extends FlxSpriteGroup
 
 	var isEnding:Bool = false;
 
-	function startDialogue():Void
+    function startDialogue():Void
 	{
 		cleanDialog();
 		// var theDialog:Alphabet = new Alphabet(0, 70, dialogueList[0], false, true);

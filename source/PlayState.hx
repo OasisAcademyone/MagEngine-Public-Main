@@ -41,6 +41,14 @@ import lime.utils.Assets;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
+import openfl.Assets;
+#if sys
+import sys.io.File;
+import sys.FileSystem;
+import flixel.graphics.FlxGraphic;
+import openfl.display.BitmapData;
+#end
+
 
 using StringTools;
 
@@ -99,7 +107,7 @@ class PlayState extends MusicBeatState
 	private var camHUD:FlxCamera;
 	private var camGame:FlxCamera;
 
-	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
+	public static var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
 
 	var halloweenBG:FlxSprite;
 	var isHalloween:Bool = false;
@@ -138,7 +146,7 @@ class PlayState extends MusicBeatState
 
 	// how big to stretch the pixel art assets
 	public static var daPixelZoom:Float = 6;
-
+	var bruhmomento:Bool = SONG.song.toLowerCase() != 'bopeebo' && SONG.song.toLowerCase() != 'fresh' && SONG.song.toLowerCase() != 'dadbattle' && SONG.song.toLowerCase() != 'spookeez' && SONG.song.toLowerCase() != 'south' && SONG.song.toLowerCase() != 'monster' && SONG.song.toLowerCase() != 'pico' && SONG.song.toLowerCase() != 'philly' && SONG.song.toLowerCase() != 'blammed' && SONG.song.toLowerCase() != 'satin-panties' &&  SONG.song.toLowerCase() != 'high' && SONG.song.toLowerCase() != 'milf' && SONG.song.toLowerCase() != 'cocoa' && SONG.song.toLowerCase() != 'eggnog' && SONG.song.toLowerCase() != 'winter-horrorland' && SONG.song.toLowerCase() != 'senpai' && SONG.song.toLowerCase() != 'roses' &&SONG.song.toLowerCase() != 'thorns';
 	var inCutscene:Bool = false;
 
 	#if desktop
@@ -174,7 +182,6 @@ class PlayState extends MusicBeatState
 
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
-
 		switch (SONG.song.toLowerCase())
 		{
 			case 'tutorial':
@@ -202,8 +209,19 @@ class PlayState extends MusicBeatState
 				dialogue = CoolUtil.coolTextFile(Paths.txt('data/thorns/thornsDialogue'));
 
 			default:
-				if (isStoryMode)
-				dialogue = CoolUtil.coolTextFile(Paths.txt('data/' + SONG.song.toLowerCase() + '/Dialogue'));
+				if (isStoryMode){
+					if (bruhmomento){
+						var content:String = sys.io.File.getContent('mods/data/' + SONG.song.toLowerCase() + '/' + SONG.song.toLowerCase() + '-Dialogue.txt');
+						dialogue = [content];
+						trace(content);
+						#if polymod
+                        polymod.Polymod.init({modRoot: "mods", dirs: [content]});
+		                #end
+						
+					}
+					else
+				dialogue = CoolUtil.coolTextFile(Paths.txt('data/' + SONG.song.toLowerCase() + '/' + SONG.song.toLowerCase() + '-Dialogue'));
+			}
 		}
 
 		#if desktop
@@ -1375,10 +1393,14 @@ class PlayState extends MusicBeatState
 		}, 5);
 	}
 
+
+
+
 	var previousFrameTime:Int = 0;
 	var lastReportedPlayheadPosition:Int = 0;
 	var songTime:Float = 0;
 
+	
 	function startSong():Void
 	{
 		startingSong = false;
@@ -2150,15 +2172,13 @@ class PlayState extends MusicBeatState
 				FlxG.switchState(new StoryMenuState());
 
 				// if ()
-				StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
 
 				if (SONG.validScore)
 				{
 					NGio.unlockMedal(60961);
 					Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
 				}
-
-				FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
+				
 				FlxG.save.flush();
 			}
 			else
