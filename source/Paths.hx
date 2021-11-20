@@ -84,6 +84,9 @@ class Paths
 			return getPath('$key.txt', TEXT, library);
 		}
 	
+		
+		
+
 
 	inline static public function xml(key:String, ?library:String)
 	{
@@ -170,10 +173,15 @@ class Paths
 
 	}
 
+	inline static public function bruhtxt(key:String)
+		{
+			return modfold('$key.txt');
+		}
+
 	inline static public function mods(key:String = '') {
 		return 'mods/' + key;
 	}
-	
+
 	inline static public function modsSongs(key:String) {
 		return modfold('songs/' + key + '.' + SOUND_EXT);
 	}

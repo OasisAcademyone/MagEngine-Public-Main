@@ -211,13 +211,19 @@ class PlayState extends MusicBeatState
 			default:
 				if (isStoryMode){
 					if (bruhmomento){
-						var content:String = sys.io.File.getContent('mods/data/' + SONG.song.toLowerCase() + '/' + SONG.song.toLowerCase() + '-Dialogue.txt');
-						dialogue = [content];
-						trace(content);
+						var content:String = sys.io.File.getContent(Paths.bruhtxt('data/' + SONG.song.toLowerCase() + '/' + SONG.song.toLowerCase() + '-Dialogue'));
+						var firstArray:Array<String> = content.split('\n');
+						var swagGoodArray:Array<Array<String>> = [];
 						#if polymod
-                        polymod.Polymod.init({modRoot: "mods", dirs: [content]});
-		                #end
-						
+						polymod.Polymod.init({modRoot: "mods", dirs: [content]});
+						#end
+						dialogue = firstArray;
+				   for (i in firstArray)
+				   {
+					  swagGoodArray.push(i.split(':'));
+				   }
+				
+				
 					}
 					else
 				dialogue = CoolUtil.coolTextFile(Paths.txt('data/' + SONG.song.toLowerCase() + '/' + SONG.song.toLowerCase() + '-Dialogue'));
@@ -1521,7 +1527,6 @@ class PlayState extends MusicBeatState
 	{
 		return FlxSort.byValues(FlxSort.ASCENDING, Obj1.strumTime, Obj2.strumTime);
 	}
-
 	private function generateStaticArrows(player:Int):Void
 	{
 		for (i in 0...4)
@@ -1636,7 +1641,7 @@ class PlayState extends MusicBeatState
 	{
 		FlxTween.tween(FlxG.camera, {zoom: 1.3}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut});
 	}
-
+    
 	override function openSubState(SubState:FlxSubState)
 	{
 		if (paused)
