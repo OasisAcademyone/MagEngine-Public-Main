@@ -32,6 +32,7 @@ class Paths
 		{
 			modsthing.set('data', true);
 			modsthing.set('songs', true);
+			modsthing.set('dialogues', true);
 		}
 
 	static public function setCurrentLevel(name:String)
@@ -146,6 +147,18 @@ class Paths
 		return null;
 	}
 
+	inline static public function fileExists(key:String, type:AssetType, ?library:String)
+		{
+			if(FileSystem.exists(mods(modDir + '/' + key)) || FileSystem.exists(mods(key))) {
+				return true;
+			}
+			
+			if(OpenFlAssets.exists(Paths.getPath(key, type, library))) {
+				return true;
+			}
+			return false;
+		}
+	
 	inline static public function image(key:String, ?library:String)
 	{
 		return getPath('images/$key.png', IMAGE, library);
@@ -168,6 +181,7 @@ class Paths
 	inline static public function modsong(key:String) {
 		return modfold('data/' + key + '.json');
 	}
+	
 	
 	inline static public function formatToSongPath(path:String) {
 		return path.toLowerCase().replace(' ', '-');

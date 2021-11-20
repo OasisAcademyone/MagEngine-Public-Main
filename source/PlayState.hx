@@ -41,6 +41,14 @@ import lime.utils.Assets;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
+import openfl.Assets;
+#if sys
+import sys.io.File;
+import sys.FileSystem;
+import flixel.graphics.FlxGraphic;
+import openfl.display.BitmapData;
+#end
+
 
 using StringTools;
 
@@ -99,8 +107,7 @@ class PlayState extends MusicBeatState
 	private var camHUD:FlxCamera;
 	private var camGame:FlxCamera;
 
-	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
-	var cooldialogue:Array<String> = ['coolswag'];
+	public static var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
 
 	var halloweenBG:FlxSprite;
 	var isHalloween:Bool = false;
@@ -204,19 +211,16 @@ class PlayState extends MusicBeatState
 			default:
 				if (isStoryMode){
 					if (bruhmomento){
-
-						switch (SONG.dialoguetoggle){
-
-						case 'true':
+						var content:String = sys.io.File.getContent('mods/data/' + SONG.song.toLowerCase() + '/' + SONG.song.toLowerCase() + '-Dialogue.txt');
+						dialogue = [content];
+						trace(content);
 						#if polymod
-						polymod.Polymod.init({modRoot: "mods", dirs: ['data/'+ SONG.song.toLowerCase() + '/Dialogue']});
-						#end
-
-						case 'false':
+                        polymod.Polymod.init({modRoot: "mods", dirs: [content]});
+		                #end
+						
 					}
-				}
-				else
-				dialogue = CoolUtil.coolTextFile(Paths.txt('data/' + SONG.song.toLowerCase() + '/Dialogue'));
+					else
+				dialogue = CoolUtil.coolTextFile(Paths.txt('data/' + SONG.song.toLowerCase() + '/' + SONG.song.toLowerCase() + '-Dialogue'));
 			}
 		}
 
@@ -1389,10 +1393,14 @@ class PlayState extends MusicBeatState
 		}, 5);
 	}
 
+
+
+
 	var previousFrameTime:Int = 0;
 	var lastReportedPlayheadPosition:Int = 0;
 	var songTime:Float = 0;
 
+	
 	function startSong():Void
 	{
 		startingSong = false;
