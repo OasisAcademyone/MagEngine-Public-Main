@@ -52,7 +52,6 @@ jobs:
           haxelib run lime rebuild extension-webm windows
           haxelib git openfl https://github.com/openfl/openfl
           haxelib install actuate
-          haxelib list
         shell: cmd
       - name: Create APIStuff
         run: echo "package;class APIStuff{public static var API:String = '';public static var EncKey:String = '';}" > source/APIStuff.hx
