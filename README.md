@@ -1,3 +1,4 @@
+added the action builds
 # Friday Night Funkin: Mag Engine, The First Engine To Support Full Weeks And Dialogues With No Modding.
 
 This is the repository for Friday Night Funkin: Mag Engine.
