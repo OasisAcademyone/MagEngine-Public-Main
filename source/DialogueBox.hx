@@ -91,6 +91,7 @@ class DialogueBox extends FlxSpriteGroup
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
 		}
 		
+
 		
 		bgFade = new FlxSprite(-200, -200).makeGraphic(Std.int(FlxG.width * 1.3), Std.int(FlxG.height * 1.3), 0xFFB3DFd8);
 		bgFade.scrollFactor.set();
@@ -482,6 +483,7 @@ class DialogueBox extends FlxSpriteGroup
 
     function startDialogue():Void
 	{
+
 		cleanDialog();
 		// var theDialog:Alphabet = new Alphabet(0, 70, dialogueList[0], false, true);
 		// dialogue = theDialog;
